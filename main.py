@@ -1,15 +1,23 @@
-from flask import make_response, jsonify, Flask
+from flask import make_response, jsonify, request, Flask
 from bd import carros
 
 app = Flask(__name__)
 
-# Criando um rota para minha função get carros.
-# Acima da declaração da função você marca ela com @app (decorator)
-# Com esse decorator eu tou dizendo pro FLASK que essa função tá marcada como uma rota da nossa API.
 @app.route('/carros', methods=['GET'])
 def get_carros():
-    return make_response(jsonify(carros))
-     
+    return make_response(jsonify(
+        message='Lista de carros',
+        carros=carros
+    ))
+
+@app.route('/carros', methods=['POST'])
+def create_carro():
+    carro = request.json
+    print(carro)
+    return make_response(jsonify(
+        message='Carro cadastrado com sucesso',
+        carro=carro
+    ))
 
 #Rodar server
 app.run()
