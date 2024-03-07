@@ -1,9 +1,8 @@
-from dotenv import load_dotenv
 import os
-
-
+from dotenv import load_dotenv
 load_dotenv()
-#.ENV INFORMATIONS
+
+#@Description: .env configuration to export to another files.
 JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 DB_HOST= os.getenv('DB_HOST')
 DB_NAME=os.getenv('DB_NAME')

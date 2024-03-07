@@ -1,11 +1,11 @@
-# @Description: Formatar os carros que vem do DB de Tupla para dincionário.
+# @Description: Format the cars list of tuple to list of dict
 def formatting(meus_carros):
-    carros = []
-    for carro in meus_carros:
-        carros.append({
-            'id': carro[0],
-            'marca': carro[1],
-            'modelo': carro[2],
-            'ano': carro[3]
+    cars = []
+    for car in meus_carros:
+        cars.append({
+            'id': car[0],
+            'marca': car[1],
+            'modelo': car[2],
+            'ano': car[3]
         })
-    return carros
+    return cars

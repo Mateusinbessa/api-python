@@ -1,5 +1,8 @@
-from config import DB_HOST, DB_NAME, DB_PWD, DB_USER
+#@Libs
 import mysql.connector
+
+#@Self-modules
+from config import DB_HOST, DB_NAME, DB_PWD, DB_USER
 
 def connectDB():
     db = mysql.connector.connect(
