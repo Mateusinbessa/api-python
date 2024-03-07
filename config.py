@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
 
+load_dotenv()
 #.ENV INFORMATIONS
 JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 DB_HOST= os.getenv('DB_HOST')
