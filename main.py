@@ -1,21 +1,22 @@
+#Libs
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required
 from flask import make_response, jsonify, request, Flask
-from extensions import jwt, pwd_context
-from config import JWT_SECRET_KEY
-import mysql.connector
 
-db = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='',
-    database='test'
-)
+#Self-imports
+from config import JWT_SECRET_KEY
+from functions import connectDB
+from extensions import jwt
+
+db = connectDB()
+
+#API Configs
 app = Flask(__name__)
 app.json.sort_keys = False
-app.config['JWT_SECRET_KEY'] = 'sadfasdfsadfasdfsadfasdf'
+app.config['JWT_SECRET_KEY'] = JWT_SECRET_KEY
+
 jwt.init_app(app)
 
-
+#Routes
 @app.route('/carros', methods=['GET'])
 @jwt_required()
 def get_carros():
@@ -43,6 +44,7 @@ def get_carros():
     ))
 
 @app.route('/carros', methods=['POST'])
+@jwt_required
 def create_carro():
     carro = request.json
     
