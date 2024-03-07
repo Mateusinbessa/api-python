@@ -1,3 +1,4 @@
+# @Description: Formatar os carros que vem do DB de Tupla para dincionário.
 def formatting(meus_carros):
     carros = []
     for carro in meus_carros:
