@@ -4,7 +4,7 @@ from flask import make_response, jsonify, request, Flask
 
 #Self-imports
 from models.carro import getAll, create
-from controllers.carro import formatting
+from routes.carro import carros_bp
 from config import JWT_SECRET_KEY
 
 #API Configs
@@ -15,26 +15,7 @@ jwt = JWTManager()
 jwt.init_app(app)
 
 #Routes
-@app.route('/carros', methods=['GET'])
-@jwt_required()
-def get_carros():
-    meus_carros = getAll()
-    carros_formatados = formatting(meus_carros)
-    return make_response(jsonify(
-        message='Lista de carros',
-        carros=carros_formatados       
-    ))
-
-@app.route('/carros', methods=['POST'])
-@jwt_required()
-def create_carro():
-    carro = request.json
-    create(carro)
-    
-    return make_response(jsonify(
-        message='Carro cadastrado com sucesso',
-        carro=carro
-    ))
+app.register_blueprint(carros_bp, url_prefix='/api')
 
 @app.route('/login', methods=['POST'])
 def login():

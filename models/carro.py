@@ -1,4 +1,4 @@
-from functions import connectDB
+from db.conn import connectDB
 db = connectDB()
 
 def getAll():
