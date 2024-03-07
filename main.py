@@ -1,4 +1,7 @@
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required
 from flask import make_response, jsonify, request, Flask
+from extensions import jwt, pwd_context
+from config import JWT_SECRET_KEY
 import mysql.connector
 
 db = mysql.connector.connect(
@@ -9,9 +12,14 @@ db = mysql.connector.connect(
 )
 app = Flask(__name__)
 app.json.sort_keys = False
+app.config['JWT_SECRET_KEY'] = 'sadfasdfsadfasdfsadfasdf'
+jwt.init_app(app)
+
 
 @app.route('/carros', methods=['GET'])
+@jwt_required()
 def get_carros():
+    #TODO: Virar função dentro do MODEL
     try:
         cursor = db.cursor()
         cursor.execute('SELECT * FROM carros')
@@ -20,6 +28,7 @@ def get_carros():
         print(f'Error in getting cars: {e}')
     
     carros = []
+    #TODO: Dá pra fazer virar função
     for carro in meus_carros:
         carros.append({
             'id': carro[0],
@@ -37,6 +46,7 @@ def get_carros():
 def create_carro():
     carro = request.json
     
+    #TODO: Virar função dentro de um MODEL
     try:
         cursor = db.cursor()
         query = f"INSERT INTO carros (marca, modelo, ano) VALUES ('{carro['marca']}', '{carro['modelo']}', {carro['ano']})"
@@ -49,6 +59,19 @@ def create_carro():
     return make_response(jsonify(
         message='Carro cadastrado com sucesso',
         carro=carro
+    ))
+
+@app.route('/login', methods=['POST'])
+def login():
+    email = request.json.get("email")
+    password = request.json.get("password")
+    
+    access_token = create_access_token(identity=1)
+    refresh_token = create_refresh_token(identity=1)
+    
+    return make_response(jsonify(
+        access_token = access_token,
+        refresh_token = refresh_token
     ))
 
 app.run()
